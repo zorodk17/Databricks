@@ -51,14 +51,14 @@ df_bakery.display()
 
 # COMMAND ----------
 
-#batters_data = bakery['batters']['batter']
-#df_batters = spark.createDataFrame(batters_data)
 bakery_row = convert_ids(bakery)
 bakery_df = spark.createDataFrame([bakery_row])
 df_bakery.display()
 
 # COMMAND ----------
 
+#batters_data = bakery['batters']['batter']
+#df_batters = spark.createDataFrame(batters_data)
 batters_data = convert_ids(bakery['batters']['batter'])
 df_batters = spark.createDataFrame(batters_data)
 df_batters.display()
@@ -69,3 +69,18 @@ df_batters.display()
 toppings_data = convert_ids(bakery['topping'])
 df_toppings = spark.createDataFrame(toppings_data)
 df_toppings.display()
+
+# COMMAND ----------
+
+df=spark.createDataFrame([bakery])
+df.display()
+
+# COMMAND ----------
+
+from pyspark.sql.functions import *
+df_final=(df
+          .withColumn("batter_id",col("batters.id"))
+          .withColumn("batter_type",col("batters.type"))
+        .withColumn("batters",explode("batters"))
+          .display()
+)

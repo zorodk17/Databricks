@@ -25,7 +25,11 @@ df1.display()
 
 # COMMAND ----------
 
-df2=df1.withColumn("environment",lit("uat"))
+v=dbutils.widgets.get("env")
+
+# COMMAND ----------
+
+df2=df1.withColumn("environment",lit(v))
 
 # COMMAND ----------
 
@@ -38,7 +42,3 @@ dbutils.widgets.help()
 # COMMAND ----------
 
 dbutils.widgets.text("env","dev")
-
-# COMMAND ----------
-
-v=dbutils.widgets.get("env")
